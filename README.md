@@ -2,7 +2,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 # Project Description
 
-This full-stack uses React, Node, Express, SQLite and Squelize to create and manage courses.
+This full-stack uses React, Node, Express, SQLite and Sequelize to create and manage courses.
 
 ## How do I use this App?
 
