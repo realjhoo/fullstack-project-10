@@ -10,7 +10,7 @@ Download the files, then;
 
 - Open a terminal at the api directory
 - Run `npm install`
-- Run `npm seed` to initialize the database
+- Run `npm run seed` to initialize the database
 - Run `npm start`
 - This will start the Sequelize folder on [http://localhost:3000](http://localhost:3000)
 - Open a terminal at the client directory
