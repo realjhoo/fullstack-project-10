@@ -12,11 +12,11 @@ Download the files, then;
 - Run `npm install`
 - Run `npm run seed` to initialize the database
 - Run `npm start`
-- This will start the Sequelize folder on [http://localhost:3000](http://localhost:3000)
+- This will start the Sequelize folder on [http://localhost:5000](http://localhost:5000)
 - Open a terminal at the client directory
 - Run `npm install`
 - Run `npm start`
-- This will run the app on [http://localhost:5000](http://localhost:5000)
+- This will run the app on [http://localhost:3000](http://localhost:3000)
 
 ## What can I do with this App?
 
