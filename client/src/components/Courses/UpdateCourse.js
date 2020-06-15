@@ -2,8 +2,9 @@
 import React, { Component } from "react";
 import Form from "../Form";
 
-class CreateCourse extends Component {
+class UpdateCourse extends Component {
   state = {
+    id: null,
     title: "",
     description: "",
     estimatedTime: "",
@@ -13,6 +14,41 @@ class CreateCourse extends Component {
   };
 
   // ======================================================
+  componentDidMount() {
+    const { context } = this.props;
+
+    // run getCourse func
+    context.data
+      .getCourse(this.props.match.params.id)
+      .then((course) => {
+        if (course) {
+          if (course.userId === context.authenticatedUser.id) {
+            this.setState({
+              id: course.id,
+              title: course.title,
+              description: course.description,
+              estimatedTime: course.estimatedTime,
+              materialsNeeded: course.materialsNeeded,
+              userId: course.userId,
+            });
+          } else {
+            // user doesnt have permission to be here
+            this.props.history.push("/forbidden");
+          }
+        } else {
+          // no such course
+          this.props.history.push("/notfound");
+        }
+      })
+      .catch((err) => {
+        // something else went wrong - log out error - show error page
+        console.error("Error: ", err);
+        this.props.history.push("/error");
+      });
+  }
+
+  // ======================================================
+  // update on change
   change = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -25,51 +61,60 @@ class CreateCourse extends Component {
   };
 
   // ======================================================
+  // user pressed update
   submit = () => {
+    // vars
     const { context } = this.props;
-    const authenticatedUser = context.authenticatedUser;
-    const { emailAddress, password, id } = authenticatedUser;
+    const emailAddress = context.authenticatedUser.emailAddress;
+    const password = context.authenticatedUser.password;
 
-    const { title, description, estimatedTime, materialsNeeded } = this.state;
-
-    // new couse data
-    const newCourseData = {
+    const {
+      id,
       title,
       description,
       estimatedTime,
       materialsNeeded,
-      userId: id,
+      userId,
+    } = this.state;
+
+    const updatedCourseData = {
+      id,
+      title,
+      description,
+      estimatedTime,
+      materialsNeeded,
+      userId,
     };
 
-    // call createCourse func
     context.data
-      .createCourse(newCourseData, emailAddress, password)
+      // call updateCourse function
+      .updateCourse(updatedCourseData, emailAddress, password)
+      // if something went wrong
       .then((errors) => {
-        // if something went wrong
         if (errors.length) {
           this.setState({ errors });
         } else {
-          // otherwise return to root
-          this.props.history.push("/");
+          // otherwise return to detail page
+          this.props.history.push(`/courses/${updatedCourseData.id}`);
         }
       })
+      // something went wrong - log error - show error page
       .catch((err) => {
-        // something went wrong - log error - show error page
         console.error("Error: ", err);
         this.props.history.push("/error");
       });
   };
 
   // ======================================================
+  // user pressed cancel
   cancel = () => {
-    // return to root
-    this.props.history.push("/");
+    // return to details
+    this.props.history.push(`/courses/${this.state.id}`);
   };
 
   // ======================================================
   render() {
     const { context } = this.props;
-
     const {
       title,
       description,
@@ -83,12 +128,12 @@ class CreateCourse extends Component {
     return (
       <div>
         <div className="bounds course--detail">
-          <h1>Create Course</h1>
+          <h1>Update Course</h1>
           <Form
             cancel={this.cancel}
             errors={errors}
             submit={this.submit}
-            submitButtonText="Create Course"
+            submitButtonText="Update Course"
             elements={() => (
               <React.Fragment>
                 <div className="grid-66">
@@ -102,10 +147,10 @@ class CreateCourse extends Component {
                       placeholder="Course title..."
                       onChange={this.change}
                     />
-                    <p>
-                      By {firstName} {lastName}
-                    </p>
                   </div>
+                  <p>
+                    By {firstName} {lastName}
+                  </p>
                   <div className="course--description">
                     <textarea
                       id="description"
@@ -158,4 +203,4 @@ class CreateCourse extends Component {
   }
 }
 
-export default CreateCourse;
+export default UpdateCourse;

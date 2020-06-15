@@ -1,8 +1,11 @@
-import React from 'react';
+// gtg
+import React from "react";
 
-export default () => (
+const NotFound = () => (
   <div className="bounds">
-    <h1>Not Found</h1>
-    <p>Sorry! We couldn't find the page you're looking for.</p>
+    <h1>Page Not Found</h1>
+    <p>I couldn't find the page that you're looking for.</p>
   </div>
 );
+
+export default NotFound;
