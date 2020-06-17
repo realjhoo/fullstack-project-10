@@ -49,7 +49,7 @@ export default class Data {
       return res.json().then((data) => data);
       // if not okay return errors
     } else if (res.status === 400 || res.status === 401) {
-      return res.data.errors;
+      return null;
     } else {
       throw new Error();
     }
@@ -109,10 +109,10 @@ export default class Data {
     });
 
     if (res.status === 201) {
-      return [];
+      return null;
     } else if (res.status === 400) {
       return res.json().then((data) => {
-        return data.errors;
+        return data;
       });
     } else {
       throw new Error();
@@ -131,7 +131,7 @@ export default class Data {
       return [];
     } else if (res.status === 400) {
       return res.json().then((data) => {
-        return data.errors;
+        return data;
       });
     } else {
       throw new Error();

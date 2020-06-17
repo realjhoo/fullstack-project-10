@@ -89,8 +89,28 @@ class UpdateCourse extends Component {
     context.data
       // call updateCourse function
       .updateCourse(updatedCourseData, emailAddress, password)
-      // if something went wrong
+      // if something goes wrong
       .then((errors) => {
+        // The error from this module wants to be an object but
+        // the form module is expecting an array
+        // ugly hack follows
+        // convert error object to string
+        errors = JSON.stringify(errors);
+        // split string into an array at the commas
+        errors = errors.split(",");
+        // remove last item from array (braces etc)
+        errors.pop();
+        if (errors.length) {
+          // fix up error one (Extract useful part of message)
+          errors[0] = errors[0].slice(0, -1);
+          errors[0] = errors[0].slice(29);
+          if (errors.length > 1) {
+            // fix up error two
+            errors[1] = errors[1].slice(0, -1);
+            errors[1] = errors[1].slice(19);
+          }
+        } // end hack
+
         if (errors.length) {
           this.setState({ errors });
         } else {

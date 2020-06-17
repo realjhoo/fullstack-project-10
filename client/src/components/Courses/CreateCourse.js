@@ -46,7 +46,7 @@ class CreateCourse extends Component {
       .createCourse(newCourseData, emailAddress, password)
       .then((errors) => {
         // if something went wrong
-        if (errors.length) {
+        if (errors) {
           this.setState({ errors });
         } else {
           // otherwise return to root

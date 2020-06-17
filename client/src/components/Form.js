@@ -39,11 +39,12 @@ export default (props) => {
 // if there are errors, format them and show
 function ErrorsDisplay({ errors }) {
   let errorsDisplay = null;
+  errors = Object.values(errors);
 
   if (errors.length) {
     errorsDisplay = (
       <div>
-        <h2 className="validation--errors--label">Validation errors</h2>
+        <h2 className="validation--errors--label">Validation Errors!</h2>
         <div className="validation-errors">
           <ul>
             {errors.map((error, i) => (

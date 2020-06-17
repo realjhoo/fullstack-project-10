@@ -36,7 +36,9 @@ class UserSignIn extends Component {
       .then((user) => {
         // failure
         if (user === null) {
-          this.setState({ errors: user });
+          this.setState({
+            errors: ["No such email/password combination exists!"],
+          });
         } else {
           // success
           this.props.history.push(from);

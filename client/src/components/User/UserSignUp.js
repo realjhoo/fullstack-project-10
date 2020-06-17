@@ -64,8 +64,9 @@ class UserSignUp extends Component {
         });
     } else {
       // error if passwords do not match
+      // also - make sure error is an array!
       this.setState({
-        errors: "Error: Passwords do not match!",
+        errors: ["Error: Passwords do not match!"],
       });
     }
   };
