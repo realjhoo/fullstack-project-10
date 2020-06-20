@@ -23,17 +23,17 @@ if (config.use_env_variable) {
 }
 
 fs.readdirSync(__dirname)
-  .filter(file => {
+  .filter((file) => {
     return (
       file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
     );
   })
-  .forEach(file => {
+  .forEach((file) => {
     const model = sequelize["import"](path.join(__dirname, file));
     models[model.name] = model;
   });
 
-Object.keys(models).forEach(modelName => {
+Object.keys(models).forEach((modelName) => {
   if (models[modelName].associate) {
     models[modelName].associate(models);
   }
@@ -42,5 +42,5 @@ Object.keys(models).forEach(modelName => {
 module.exports = {
   sequelize,
   Sequelize,
-  models
+  models,
 };

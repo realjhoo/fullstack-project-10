@@ -1,68 +1,68 @@
 const Sequelize = require("sequelize");
 
-module.exports = sequelize => {
+module.exports = (sequelize) => {
   class User extends Sequelize.Model {}
   User.init(
     {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
       },
       firstName: {
         type: Sequelize.STRING,
         allowNull: false,
         validate: {
           notEmpty: {
-            msg: "Please enter a valid firstName."
-          }
-        }
+            msg: "Please enter a valid first name.",
+          },
+        },
       },
       lastName: {
         type: Sequelize.STRING,
         allowNull: false,
         validate: {
           notEmpty: {
-            msg: "Please enter a valid lastName."
-          }
-        }
+            msg: "Please enter a valid last name.",
+          },
+        },
       },
       emailAddress: {
         type: Sequelize.STRING,
         allowNull: false,
         validate: {
           notEmpty: {
-            msg: "Email address cannot be empty."
+            msg: "Email address cannot be empty.",
           },
           isEmail: {
-            msg: "Please enter a valid email address."
-          }
+            msg: "Please enter a valid email address.",
+          },
         },
         unique: {
           args: true,
-          msg: "Email address is already in use."
-        }
+          msg: "Email address is already in use.",
+        },
       },
       password: {
         type: Sequelize.STRING,
         allowNull: false,
         validate: {
           notEmpty: {
-            msg: "Please enter a password."
-          }
-        }
-      }
+            msg: "Please enter a password.",
+          },
+        },
+      },
     },
     { sequelize }
   );
 
-  User.associate = models => {
+  User.associate = (models) => {
     User.hasMany(models.Course, {
       as: "userInfo",
       foreignKey: {
         fieldName: "userId",
-        allowNull: false
-      }
+        allowNull: false,
+      },
     });
   };
 

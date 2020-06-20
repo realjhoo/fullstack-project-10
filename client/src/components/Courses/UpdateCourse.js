@@ -105,7 +105,7 @@ class UpdateCourse extends Component {
           errors[0] = errors[0].slice(0, -1);
           errors[0] = errors[0].slice(29);
           if (errors.length > 1) {
-            // fix up error two
+            // fix up error two (there are only 2)
             errors[1] = errors[1].slice(0, -1);
             errors[1] = errors[1].slice(19);
           }

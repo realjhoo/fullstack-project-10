@@ -46,11 +46,40 @@ class UserSignUp extends Component {
       password,
     };
 
+    // need to refactor - not elegant
     // if passwords match sign user in
     if (password === confirmPassword) {
       context.data
         .createUser(user)
         .then((errors) => {
+          // if there are API errors, fix up for display
+          if (errors) {
+            errors = JSON.stringify(errors).split(","); // convert obj to array
+            errors.pop(); // remove braces from end
+            // extract useful bit of first error message
+            if (errors.length) {
+              errors[0] = errors[0].slice(29);
+              if (errors[0] === 'already in use."') {
+                // restore "Email address already in use." error
+                errors[0] = "Email address already in use.";
+              }
+            }
+            // if there's more than one error, fix those, too
+            if (errors.length > 1) {
+              for (let j = 1; j < errors.length; j++) {
+                errors[j] = errors[j].slice(19);
+              }
+            }
+            if (errors.length) {
+              // remove trailing quote on the last error message
+              errors[errors.length - 1] = errors[errors.length - 1].slice(
+                0,
+                -1
+              );
+            }
+          }
+
+          // set the fix up error
           if (errors.length) {
             this.setState({ errors });
           } else {
@@ -60,14 +89,21 @@ class UserSignUp extends Component {
           }
         })
         .catch((err) => {
+          console.log("Err: ", err);
           this.props.history.push("/error");
         });
     } else {
-      // error if passwords do not match
-      // also - make sure error is an array!
-      this.setState({
-        errors: ["Error: Passwords do not match!"],
-      });
+      // password blanl - set error
+      if (password.length === 0) {
+        this.setState({
+          errors: ["Please enter a password."],
+        });
+      } else {
+        // passwords dont match - set an error
+        this.setState({
+          errors: ["Passwords do not match!"],
+        });
+      }
     }
   };
 

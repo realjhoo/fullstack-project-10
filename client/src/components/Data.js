@@ -59,12 +59,11 @@ export default class Data {
   // create a user  - return error sif there's a problem
   async createUser(user) {
     const res = await this.api("/users", "POST", user);
-
     if (res.status === 201) {
       return [];
     } else if (res.status === 400) {
       return res.json().then((data) => {
-        return data.errors;
+        return data;
       });
     } else {
       throw new Error();
